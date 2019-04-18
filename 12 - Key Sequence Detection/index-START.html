@@ -7,6 +7,17 @@
 </head>
 <body>
 <script>
+  let pressed = []
+  const secretCode = 'wesbos'
+  let canceler = () => {}
+  window.addEventListener('keyup', (e) => {
+    canceler()
+    pressed.push(e.code)
+
+
+    canceler = setTimeout(() => (pressed = []), 2000)
+
+  })
 </script>
 </body>
 </html>

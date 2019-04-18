@@ -12,6 +12,25 @@
 <script>
   window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
+  const sr = new SpeechRecognition()
+  sr.intermResult = true
+  sr.lang = 'en-US';
+
+  const container = document.querySelector('div.words')
+
+  // sr 的事件: result → 一段时间没有检测到声音 → end → sr停止对声音的检测
+  // if (e.results[0].isFinal) 表示结束的flag
+  sr.addEventListener('result', (e) => {
+    let p = document.createElement('p')
+    console.log('e:', e)
+    const transcript = Array.from(e.results).map(result => result[0].transcript).join('')
+    p.innerText = transcript
+
+    container.appendChild(p)
+  })
+
+  sr.addEventListener('end', sr.start)
+  sr.start()
 
 </script>
 
@@ -40,7 +59,7 @@
       position: relative;
       line-height: 3rem;
     }
-    
+
     p {
       margin: 0 0 3rem;
     }

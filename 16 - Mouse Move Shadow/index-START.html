@@ -6,11 +6,11 @@
 </head>
 <body>
 
-  <div class="hero">
-    <h1 contenteditable>🔥WOAH!</h1>
-  </div>
+<div class="hero">
+  <h1 contenteditable>🔥WOAH!</h1>
+</div>
 
-  <style>
+<style>
   html {
     color: black;
     font-family: sans-serif;
@@ -29,12 +29,38 @@
   }
 
   h1 {
-    text-shadow: 10px 10px 0 rgba(0,0,0,1);
+    text-shadow: 10px 10px 0 rgba(0, 0, 0, 1);
     font-size: 100px;
   }
-  </style>
-
+</style>
 <script>
+  const hero = document.querySelector('.hero')
+  let walk = 50
+  const text = document.querySelector('h1')
+
+  hero.addEventListener('mousemove', (e) => {
+    /* 计算出相对于hero左上角的x,y */
+    let {offsetX: x, offsetY: y} = e
+    const heading = document.querySelector('h1')
+    if (this !== e.target) { // mousemove事件来自div.hero里的h1
+      x += e.target.offsetLeft
+      y += e.target.offsetTop
+    }
+
+    const {offsetWidth: width, offsetHeight: height} = hero
+    const xWalk = x / width * walk - (walk / 2) // 整体向左平移一半
+    const yWalk = y / height * walk - (walk / 2)
+
+    text.style.textShadow = `
+      ${xWalk}px ${yWalk}px 0 rgba(0,0,0,0.7),
+      ${-xWalk}px ${yWalk}px 0 rgba(0,0,0,0.1)
+
+    `
+
+
+    console.log('e.clientX, e.clientY, heading.offsetTop, heading.offsetHeight:', e.clientX, e.clientY, heading.offsetTop, heading.offsetHeight)
+
+  })
 </script>
 </body>
 </html>

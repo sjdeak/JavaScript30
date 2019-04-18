@@ -26,7 +26,35 @@
     </div>
 
   <script>
-    // 👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀
+
+    const links = document.querySelectorAll('a')
+
+/*
+    window.addEventListener('mousemove', (e) => {
+      const {clientX: x, clientY: y} = e
+
+    })
+*/
+    const highlight = document.createElement('span')
+    highlight.classList.add('highlight')
+    highlight.style.display = 'none'
+    // highlight.style.position = 'fixed' 用fixed的话页面滚动时高亮块仍然会停在原地
+    document.body.appendChild(highlight)
+
+    links.forEach(item => {
+      item.addEventListener('mouseenter', function (e) {
+        /* 移动绝对定位的白色高亮块 */
+        const {left, top, width, height} = this.getBoundingClientRect()
+        highlight.style.width = `${width}px`
+        highlight.style.height = `${height}px`
+        highlight.style.left = `${left+window.scrollX}px`
+        highlight.style.top = `${top+window.scrollY}px`
+        highlight.style.display = 'block'
+      })
+    })
+
+
+
   </script>
 </body>
 </html>

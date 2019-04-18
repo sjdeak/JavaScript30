@@ -18,7 +18,7 @@
     html {
       font-size: 100px;
     }
-    
+
     body {
       margin: 0;
       font-family: sans-serif;
@@ -59,6 +59,19 @@
     /*Compass: https://thenounproject.com/search/?q=compass&i=592352*/
   </style>
   <script>
+    const speed = document.querySelector('.speed-value')
+    const arrow = document.querySelector('.arrow');
+
+    // navigator.geolocation.getCurrentPosition(successCallback, errorCallback) 获取一次
+    navigator.geolocation.watchPosition((data) => { // 实时获取 会不断刷新
+      console.log(data);
+      // PC 下speed heading属性为null
+      speed.textContent = data.coords.speed; // 当前速度
+      arrow.style.transform = `rotate(${data.coords.heading}deg)`; // 朝向
+    }, (err) => {
+      console.error(err);
+    });
+
   </script>
 </body>
 </html>

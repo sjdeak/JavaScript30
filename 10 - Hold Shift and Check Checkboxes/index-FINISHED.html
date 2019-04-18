@@ -110,7 +110,8 @@ function handleCheck(e) {
     // loop over every single checkbox
     checkboxes.forEach(checkbox => {
       console.log(checkbox);
-      if (checkbox === this || checkbox === lastChecked) {
+      // 通过inBetween flag 在不知道两点前后关系的情况下选中区间
+      if (checkbox === this || checkbox === lastChecked) {  // 区间的两端
         inBetween = !inBetween;
         console.log('Starting to check them in between!');
       }
