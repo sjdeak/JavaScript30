@@ -8,33 +8,75 @@
 </head>
 <body>
 
-    <div class="voiceinator">
+<div class="voiceinator">
 
-      <h1>The Voiceinator 5000</h1>
+  <h1>The Voiceinator 5000</h1>
 
-      <select name="voice" id="voices">
-        <option value="">Select A Voice</option>
-      </select>
+  <select name="voice" id="voices">
+    <option value="">Select A Voice</option>
+  </select>
 
-      <label for="rate">Rate:</label>
-      <input name="rate" type="range" min="0" max="3" value="1" step="0.1">
+  <label for="rate">Rate:</label>
+  <input name="rate" type="range" min="0" max="3" value="1" step="0.1">
 
-      <label for="pitch">Pitch:</label>
+  <label for="pitch">Pitch:</label>
 
-      <input name="pitch" type="range" min="0" max="2" step="0.1">
-      <textarea name="text">Hello! I love JavaScript 👍</textarea>
-      <button id="stop">Stop!</button>
-      <button id="speak">Speak</button>
+  <input name="pitch" type="range" min="0" max="2" step="0.1">
+  <textarea name="text">Hello! I love JavaScript 👍</textarea>
+  <button id="stop">Stop!</button>
+  <button id="speak">Speak</button>
 
-    </div>
+</div>
 
 <script>
-  const msg = new SpeechSynthesisUtterance();
-  let voices = [];
-  const voicesDropdown = document.querySelector('[name="voice"]');
-  const options = document.querySelectorAll('[type="range"], [name="text"]');
-  const speakButton = document.querySelector('#speak');
-  const stopButton = document.querySelector('#stop');
+  const msg = new SpeechSynthesisUtterance()
+  let voices = []
+  const voicesDropdown = document.querySelector('[name="voice"]')
+  const options = document.querySelectorAll('[type="range"], [name="text"]')
+  const speakButton = document.querySelector('#speak')
+  const stopButton = document.querySelector('#stop')
+  msg.text = document.querySelector('textarea').value
+
+  function populateVoices() {
+    voices = this.getVoices() // 获取可选的朗读声音对象数组
+    voicesDropdown.innerHTML = voices
+      .map(voice => `<option value=${voice.name}>${voice.name} (${voice.lang})</options>`)
+      .join('')
+  }
+
+  function setOption() {
+    msg[this.name] = this.value
+  }
+
+  // toggle比speak stop要好  (如果可以获取到当前状态)
+  // toggle(true/false)也比speak stop要好  (显式传状态)
+  function toggle(startOver = true) {
+    speechSynthesis.cancel()
+    if (startOver) {
+      speechSynthesis.speak(msg)
+    }
+  }
+
+  /*
+  function speak() {
+    voice = voicesDropdown.value
+
+    speechSynthesis.speak()
+  }
+
+  function stop() {
+    speechSynthesis
+  }
+  */
+
+  // 可选的朗读声音项数量变化了
+  speechSynthesis.addEventListener('voiceschanged', populateVoices)
+
+  speakButton.addEventListener('click', toggle)
+  stopButton.addEventListener('click', toggle.bind(null, false))
+  options.forEach(item => {
+    item.addEventListener('change', setOption)
+  })
 </script>
 
 </body>

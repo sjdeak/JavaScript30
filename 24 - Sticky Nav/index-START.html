@@ -54,6 +54,23 @@
   </div>
 
 <script>
+  const nav = document.querySelector('nav#main')
+  const siteWrap = document.querySelector('.site-wrap')
+  const topOfNav = nav.offsetTop
+
+  /* 当滚动点到达nav时切换固定与非固定 */
+  function checkAndToggleFixed() {
+    if (window.scrollY > topOfNav) {
+      document.body.classList.add('fixed-nav')
+      document.body.style.paddingTop = nav.offsetHeight + 'px'
+    } else {
+      document.body.classList.remove('fixed-nav')
+      document.body.style.paddingTop = '0px'
+    }
+
+  }
+
+  window.addEventListener('scroll', checkAndToggleFixed)
 
 </script>
 

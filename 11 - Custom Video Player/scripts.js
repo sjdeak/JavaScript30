@@ -9,6 +9,7 @@ const ranges = player.querySelectorAll('.player__slider');
 
 video.addEventListener('click', toggleActive)
 
+// 进度条的实现原理
 progress.addEventListener('click', (e) => {
   const progressRect = progress.getClientRects()[0]
   const totalWidth = progressRect.width
@@ -16,4 +17,10 @@ progress.addEventListener('click', (e) => {
 
   video.currentTime = percent * video.duration
   progressBar.style.flexBasis = `${percent*100}%`
+})
+
+
+const fullScreenButton = document.querySelector('.fullscreen-button')
+fullScreenButton.addEventListener('click', (e) => {
+  document.body.classList.add('fullscreen')
 })

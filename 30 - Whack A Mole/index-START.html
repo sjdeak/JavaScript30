@@ -31,12 +31,52 @@
       <div class="mole"></div>
     </div>
   </div>
-
+<script src="https://cdn.bootcss.com/lodash.js/4.17.11/lodash.js"></script>
 <script>
   const holes = document.querySelectorAll('.hole');
   const scoreBoard = document.querySelector('.score');
   const moles = document.querySelectorAll('.mole');
+  let score = 0
 
+  function setScore(s) {
+    score = s
+    scoreBoard.textContent = s
+  }
+
+  function showMole() {
+    /* 随机弹出一只鼹鼠 */
+    const i = _.random(0, holes.length-1)
+    console.log('showMole', 'i:', i)
+
+
+    const clickHandler = () => {
+      /* 鼹鼠被点击时增加并更新分值 */
+      setScore(score+1)
+      this.classList.remove('up')
+    }
+    holes[i].addEventListener('click', clickHandler, {once: true})
+
+    holes[i].classList.add('up') // 弹出时的样式
+
+    setTimeout(() => {
+      holes[i].classList.remove('up')
+      holes[i].removeEventListener('click', clickHandler)
+    }, 1000)
+  }
+
+  function startGame() {
+    setScore(0)
+
+    const endup = setInterval(() => {
+      showMole()
+    }, 1000)
+
+    /* 游戏时间结束时结束游戏 */
+    setTimeout(() => {
+      clearInterval(endup)
+      alert('time up!!')
+    }, 10*1000)
+  }
 </script>
 </body>
 </html>

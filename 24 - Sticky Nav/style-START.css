@@ -65,11 +65,23 @@ nav li {
   align-items: center;
 }
 
+body.fixed-nav li.logo {
+  max-width: 500px;
+}
+
+body.fixed-nav nav {
+  position: fixed;
+}
+
+body.fixed-nav div.site-wrap {
+  transform: unset;
+}
+
 li.logo {
   max-width: 0;
   overflow: hidden;
   background: white;
-  transition: all .5s;
+  transition: all 0.5s;
   font-weight: 600;
   font-size: 30px;
 }

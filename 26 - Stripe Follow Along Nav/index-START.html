@@ -79,11 +79,11 @@
     box-sizing: border-box;
     font-family: "Arial Rounded MT Bold", "Helvetica Rounded", Arial, sans-serif;
   }
-  
+
   *, *:before, *:after {
     box-sizing: inherit;
   }
-  
+
   body {
     margin: 0;
     min-height: 100vh;
@@ -149,7 +149,7 @@
   .trigger-enter-active .dropdown {
     opacity: 1;
   }
-  
+
   .dropdownBackground {
     width: 100px;
     height: 100px;
@@ -220,6 +220,42 @@
 </style>
 
 <script>
+  const plank = document.querySelector('.dropdownBackground')
+  const nav = document.querySelector('nav.top')
+  const triggers = document.querySelectorAll('.cool > li')
+
+  function handleEnter(e) {
+    /* 显示li内容 */
+    this.classList.add('trigger-enter')
+    setTimeout(() => {
+      this.classList.add('trigger-enter-active')
+    }, 50)
+
+    /* 调整plank位置和大小 */
+    plank.classList.add('open')
+    const dropdown = this.querySelector('.dropdown')
+    const {left, top, width, height} = dropdown.getBoundingClientRect()
+    const {left: navLeft, top: navTop} = nav.getBoundingClientRect()
+    plank.style.width = width + 'px'
+    plank.style.height = height + 'px'
+    plank.style.left = left - navLeft + 'px'
+    plank.style.top = top - navTop + 'px'
+    // getBoundingClientRect返回的坐标相对于视口  但top属性相对的是外层的nav元素
+    // 图例: https://cl.ly/0bbf79d3d1cf/Image%202019-04-22%20at%2006.39.17.png
+  }
+
+  function handleLeave(e) {
+    this.classList.remove('trigger-enter','trigger-enter-active')
+    plank.classList.remove('open')
+  }
+
+  triggers.forEach(item => {
+    item.addEventListener('mouseenter', handleEnter)
+  })
+  triggers.forEach(item => {
+    item.addEventListener('mouseleave', handleLeave)
+  })
+
 </script>
 
 </body>

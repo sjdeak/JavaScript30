@@ -35,6 +35,46 @@
   </div>
 
 <script>
+  const container = document.querySelector('.items')
+  const items = document.querySelectorAll('.item')
+  let isLock = true
+  let prevX, prevScroll
+
+  container.addEventListener('mousedown', (e) => {
+    isLock = false
+
+    const currentX = e.pageX - container.offsetLeft
+    prevX = currentX
+    prevScroll = container.scrollLeft
+  })
+  container.addEventListener('mousemove', (e) => {
+    e.preventDefault() // 禁掉一些默认行为: 比如选中文本
+    if (!isLock) {
+      // 允许拖曳生效
+      console.log('e:', e)
+
+      // container.scrollBy(-e.movementX, 0) // 能正常工作 但效果不流畅
+      const currentX = e.pageX - container.offsetLeft
+      console.log('prevX, currentX:', prevX, currentX)
+
+      const walk = currentX - prevX
+      container.scrollLeft = prevScroll-walk
+
+
+      /* 拖曳 mousemove时相对于mousedown时的鼠标位置 就能得到相对位移
+      * 不需要每次mousemove时都更新 prevX , prevScroll
+      prevX = currentX
+      prevScroll = container.scrollLeft
+      */
+    }
+  })
+
+  container.addEventListener('mouseleave', (e) => {
+    isLock = true
+  })
+  container.addEventListener('mouseup', (e) => {
+    isLock = true
+  })
 </script>
 
   </body>

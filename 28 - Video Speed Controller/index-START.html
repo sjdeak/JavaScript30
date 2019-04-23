@@ -15,6 +15,25 @@
   </div>
 
 <script>
+  const speed = document.querySelector('.speed');
+  const bar = speed.querySelector('.speed-bar');
+  const video = document.querySelector('.flex');
+
+  speed.addEventListener('mousemove', function(e) {
+    const ratio = (this.offsetHeight-e.offsetY) / this.offsetHeight // 白色条占比  比如0.23
+    console.log('e.offsetY:', e.offsetY)
+    console.log('ratio:', ratio)
+
+    /* 修改白色速度条的显示 */
+    bar.style.height = Math.round((1-ratio) * 100) + '%'
+    const playbackRate = (ratio * 3).toFixed(2)
+    bar.textContent = `${playbackRate}x`
+
+    /* 修改视频播放速度 */
+    video.playbackRate = playbackRate
+
+
+  })
 </script>
 </body>
 </html>
